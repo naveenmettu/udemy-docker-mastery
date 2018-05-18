@@ -1,0 +1,90 @@
+
+docker built in kubernetes? AnyUpdate
+Muhammad · 4 months ago
+Dear Concern,
+
+Kindly update with regard to docker built in kubernetes, there are no  kubernetes videos which I guess are very important for docker clustering, please advise which is best in production swarm or kubernetes.
+
+I am really thankful for the previous feed back. 
+
+Regards
+
+
+
+Bret — Instructor  · 4 months ago  Answer 
+Hi Muhammad,
+
+Kubernetes would require a totally separate course. You can't teach K8s in just a few videos.
+
+There is no "best for everyone". Swarm is easy to use and scales nicely when the team/admins are few. Kubernetes has more 3rd party support but is much more complex to get up and running in a secure and redundant fashion, and takes more time to provide ongoing admin, but it has some minor features and opinions that are different then Swarm. There is also Mesos/DCOS that is very full featured and goes beyond just container management, but it too is quite complex to setup and maintain.
+
+I find the best path for new people to start with Swarm, and if they hit some limit or concern that they can't seem to address with Swarm, then they could look at K8s. All of my customers, partners, and projects use Swarm, and none have found a need to switch to K8s.
+
+That being said, this is very early days for container orchestration, and with Docker adding support for K8s this year, we may see it become easier to use. I honestly think (and so does Docker management) that in a few years all the orchestrators will look/act very similar, and it will be more of an "which ecosystem are you in" question.... a pure Docker Inc. stack, or a Google stack, etc.
+
+I hope that helps.
+
+Mark as helpful (5)
+MQ
+Muhammad  · 4 months ago 
+Thank You very much, really appreciate your feedback & guidance, by the way great course, really.
+
+Cheers
+
+Mark as helpful
+Bret — Instructor  · 4 months ago 
+My friend, fellow Docker Captain, Viktor Farcic, is writing a great multi-post comparison between Swarm and Kubernetes. He knows Swarm really well, and has some great DevOps books on Docker, Swarm, and K8s and Swarm add-ons he's written. He's a pro, and I respect his analysis.
+
+The summary of it is that they are both very capable orchestrators. Swarm tends to win on built-in features, and K8s tends to win on extensibility.
+
+https://technologyconversations.com/2017/12/22/kubernetes-deployments-compared-to-docker-swarm-stacks/
+
+Mark as helpful
+Bret — Instructor  · 4 months ago 
+Some other thoughts on the whole "which orchestrator do I use" question. It's indeed an important one for anyone wanting container clusters. I find this debate similar to the debates of "Do I develop new apps in Ruby, Node, or Go"?, or "Do I automate my servers using Puppet, Ansible, Chef, or SaltStack?"  It depends on lots of things to make an intelligent answer to those questions. All of those options will all likely solve your problems, so why not choose the one that makes you the most productive *NOW*, and then change them out years from now once you've matured, the market has matured, and you're able to make a more educated decision.
+
+No decision is forever, and one of your criteria should be "if this doesn't meet our long term needs, how easy will it be to replace in 2-4 years?"
+
+Back to my analogy: If you and I had a conversation about server automation tools, I would recommend Ansible or SaltStack, because they do everything the others do, but in far less time with far less code/work. To me, that's a clear winner. My time is the most valuable thing in any project. That's why people like those newer tools... if they took longer to learn and use, they would never replace the old tools like Chef and Puppet.
+
+The same goes for tools in container-land. For example, why aren't people using the rkt (rocket) container platform in the volume that people use docker engine? It's not because rkt isn't a good idea, but because people can be more productive with docker right now.
+
+But sometimes, the Internet gets behind an Idea before it's ready for prime-time. You might think a tool is used heavily based on the amount of talk about it, when the reality is much different than the hype. That's where things can get misleading. That was the case in early days of Docker. I was using it in 2014 around v1.0, but it was far from easy for new people. It was still just for the bleeding edge people that were willing to deal with lots of pain and issues. Today, that's no longer the case and it's ready for prime-time, but 4 years ago we were all hearing about this new awesome thing called Docker and thought "all the cool kids are trying it", but I almost threw Docker out due to too many challenges getting it off the ground. Luckily, it got much better, and now people truly ARE flocking to it. A typical room at a container conference I'll see over 1/2 the room raise their hand for "are you using Docker in production".
+
+Now lets look at how that relates to Kubernetes (K8s).
+
+In 2017 and today in early 2018, Kubernetes is the same as those early days of Docker engine. Even though we have versions like 1.7, 1.8, and 1.9, it's not what I would consider "easy for the average ops/admin to deploy and maintain". It has tons of potential, and a year or two from now it may be easy to deploy, configure and maintain a production quality cluster (encrypted, secure, and highly-available). However, every time I enter a room and ask "how many people have K8s in prod ", it's always 1 out of 10 that raise their hand.  If you believe the news, blogs, and twitter, you'd think everyone was going K8s ASAP for everything, but it's not true, yet.
+
+A consulting friend of mine who deploys both K8s and Swarm for companies said "Both have their bugs and edge cases issues, but if you don't have a full time Kubernetes sysadmin, then it'll be hard to keep the production cluster maintained. Swarm in those cases is much easier for one part-time person to deploy and manage."
+
+I'm not trying to "throw shade" on K8s, as it's a very cool project and a great community. But I want to ensure people new to orchestration don't believe "internet hype" over reality. Every tool has a "sweet spot". I believe Mesos has a sweet spot in managing entire datacenters, and I think Swarm has a sweet spot in smaller teams with only a few DevOps/sysadmins because of its ease of use.
+
+Here's how I help teams that pay me decide between Swarm and Kubernetes:
+
+Are you the solo DevOps/sysadmin that will manage this server cluster running a container orchestrator? If yes, then Swarm
+
+Are you less than 6 months of production experience running containers? If yes, then Swarm
+
+Are you a team deploying hundreds of containers or less, and comfortable with the docker CLI? If yes, then Swarm
+
+I don't say this because I don't think K8s can help you. I'm sure it can. But when it comes to design and deployment of clusters and then container services on top of that, K8s can be hard to get right. Swarm on the other hand, is hard to get wrong. 
+
+Here's some evidence on my bias toward Swarm for solo admins and small DevOps teams:
+
+- You can't deploy Swarm insecurely. It works securely out of the box.
+
+- It only takes one command per server to make Swarm a highly-available manager with encryption at rest. 
+
+- Any single Swarm server that fails only requires 1-2 commands to replace! 
+
+- You can use the same compose files from local dev and CI to create your production Swarm stack files. No file conversion needed.
+
+- If you want paid support you can layer EE on top of Swarm later without a rebuild. 
+
+None of those things are true with K8s (yet). I bet much of that will be solved eventually, but today I think Swarm has the advantage for small DevOps teams that don't need "google scale" systems.
+
+Anyway, I could go on, but with such little investment you can do a lot with Swarm, and that's its power... solving most of your problems with a low level of effort.
+
+In the end, any of the top orchestrators will solve your problems in 2018. It's just a question of how much time you'll need to invest in getting it working and maintain it.
+
+Good luck!
