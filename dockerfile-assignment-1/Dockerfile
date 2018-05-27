@@ -39,7 +39,7 @@ RUN npm install && npm cache clean --force
 COPY . /usr/src/app/
 
 # - then it needs to start container with command 'tini -- node ./bin/www'
-CMD tini -- node ./bin/www
+CMD [ "tini", "--", "node", "./bin/www" ]
 
 # - in the end you should be using FROM, RUN, WORKDIR, COPY, EXPOSE, and CMD commands
 
